@@ -21,7 +21,7 @@ session_start();
 <body>
     <p>
         Re bonjour <?php echo $_SESSION['prenom']; ?> !<br />
-        Tu es sur ma page?
+        Tu es sur ma page!
     </p>
     <p>
         <a href="mapage.php">Lien vers mapage.php</a>
