@@ -1,18 +1,28 @@
 <?php
+
 /**
- * ========================
- *      Les sessions
- * ========================
+ * ======================
+ * 
+ *      Mini blog
+ * 
+ * ======================
  */
 
-// On démarre la session avant d'écrire du code HTML
-session_start();
+/**
+ * Le but de cette paga va être de se connecter à la BDD
+ * et d'y récupérer les articles dispos
+ */
 
-// On peut créer des variables de session dans $_SESSION
-$_SESSION['prenom'] = 'Alex';
-$_SESSION['nom'] = 'Lamarque';
-$_SESSION['age'] = '27';
 
+// Connexion BDD
+try 
+{
+    $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '');
+}
+catch(Exception $e)
+{
+    die('Erreur : ' .$e->getMessage());
+}
 ?>
 
 <!DOCTYPE html>
@@ -21,17 +31,23 @@ $_SESSION['age'] = '27';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Titre de ma page</title>
+    <title>Mon blog</title>
 </head>
 <body>
-    <p>
-        Salut <?php echo $_SESSION['prenom']; ?> !<br />
-        Tu es à l'accueil de mon site (index.php). Tu veux aller sur une autre page ?
-    </p>
-    <p>
-        <a href="mapage.php">Lien vers mapage.php</a>
-        <a href="monscript.php">Lien vers monscript.php</a>
-        <a href="informations.php">Lien vers informations.php</a>
-    </p>
+    <h1>Bienvenue sur mon blog !</h1>
+
+    <h3>Les derniers billets du blog</h3>
+
+    <?php
+        // Retrouver les données en BDD
+
+        $sql = $bdd->prepare("SELECT titre, date_billet, contenu FROM billet");
+        $sql->execute();
+
+        $result = $sql->fetchAll();
+
+        var_dump($result);
+        exit;
+    ?>
 </body>
 </html>
